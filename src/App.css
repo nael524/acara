@@ -1,25 +1,19 @@
 /* =========================================
-   TATA LETAK UTAMA & BACKGROUND (KOMPLEKS & BERSIH)
+   TATA LETAK UTAMA (PUTIH 100%)
    ========================================= */
 .app-container {
     width: 100vw;
     height: 100vh;
     overflow: hidden;
     background-color: #ffffff;
-
-    /* Tekstur Premium: Grid Arsitektur Super Halus */
-    background-image:
-        linear-gradient(rgba(59, 130, 246, 0.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(59, 130, 246, 0.04) 1px, transparent 1px);
-    background-size: 25px 25px;
-    background-position: center center;
-
     font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     position: relative;
     overscroll-behavior: none;
-    /* Mencegah layar goyang di HP */
 }
 
+/* =========================================
+   LOADER & ANIMASI MENTAL
+   ========================================= */
 .loader-overlay {
     position: absolute;
     top: 0;
@@ -30,37 +24,32 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    /* Latar belakang transparan agar grid dari app-container terlihat */
-    background-color: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(5px);
+    background-color: #ffffff;
+    /* Putih Mutlak */
     z-index: 50;
     transition: all 0.8s cubic-bezier(0.65, 0, 0.35, 1);
 }
 
 .loader-overlay.fade-out {
     opacity: 0;
-    transform: translateY(-20px);
+    transform: translateY(-40px) scale(1.05);
     pointer-events: none;
 }
 
-/* =========================================
-   LOGO DENGAN EFEK "MENTAL-MENTAL" (ELASTIC BOUNCE)
-   ========================================= */
 .logo-container {
     position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-bottom: 2rem;
-    z-index: 10;
 }
 
 .logo-image {
     width: 140px;
     height: 140px;
     object-fit: contain;
-    /* Bayangan lembut dan elegan */
-    filter: drop-shadow(0 20px 30px rgba(59, 130, 246, 0.15));
+    /* Bayangan lembut agar logo berdimensi di latar putih */
+    filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.08));
     animation: elasticBounce 2s infinite cubic-bezier(0.28, 0.84, 0.42, 1);
     transform-origin: bottom center;
 }
@@ -68,18 +57,14 @@
 .logo-shadow {
     width: 90px;
     height: 12px;
-    background: radial-gradient(ellipse at center, rgba(59, 130, 246, 0.15) 0%, transparent 70%);
+    background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.08) 0%, transparent 70%);
     border-radius: 50%;
     margin-top: 15px;
     animation: shadowScale 2s infinite cubic-bezier(0.28, 0.84, 0.42, 1);
 }
 
-/* =========================================
-   TIPOGRAFI MINIMALIS & ELEGAN
-   ========================================= */
 .text-container {
     text-align: center;
-    z-index: 10;
     margin-bottom: 2rem;
 }
 
@@ -87,37 +72,33 @@
     font-size: clamp(2rem, 5vw, 3.5rem);
     font-weight: 900;
     margin: 0 0 0.5rem 0;
-    color: #0f172a;
+    color: #1e293b;
+    /* Abu-abu sangat gelap, lebih elegan dari hitam pekat */
     letter-spacing: -0.5px;
-    text-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
 }
 
 .subtitle-text {
     font-size: clamp(0.8rem, 2vw, 1.1rem);
     font-weight: 700;
-    color: #2563eb;
+    color: #3b82f6;
     letter-spacing: 4px;
     text-transform: uppercase;
     margin: 0;
 }
 
-/* =========================================
-   LOADING DOTS "MENTAL-MENTAL"
-   ========================================= */
+/* Titik-titik loading yang ikut memantul */
 .dots-container {
     display: flex;
     gap: 10px;
     align-items: center;
     justify-content: center;
-    padding: 10px;
 }
 
 .dot {
     width: 14px;
     height: 14px;
-    background: linear-gradient(135deg, #60a5fa, #2563eb);
+    background-color: #3b82f6;
     border-radius: 50%;
-    box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
     animation: bounceDot 1.4s infinite ease-in-out both;
 }
 
@@ -134,36 +115,121 @@
 }
 
 /* =========================================
-   PDF VIEWER (Latar Putih, Anti Hitam)
+   PDF VIEWER SCROLLING (PUTIH KOMPLEKS)
    ========================================= */
-.pdf-wrapper {
+.custom-pdf-wrapper {
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    /* Latar belakang transparan agar tekstur grid dari app-container menembus masuk */
-    background-color: transparent;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+
+    /* Latar belakang murni putih dengan tekstur grid abu-abu SUPER tipis untuk kesan mahal */
+    background-color: #ffffff;
+    background-image:
+        linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+    background-size: 30px 30px;
+
+    /* Fungsi agar bisa di-swipe */
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
     animation: fadeIn 1s ease-in-out;
-    padding: 0;
-    /* Pastikan tidak ada jarak aneh */
 }
 
-.pdf-frame {
-    width: 100vw;
-    height: 100vh;
-    border: none;
-    outline: none;
-    pointer-events: auto;
-    /* PAKSA LATAR BELAKANG IFRAME MENJADI PUTIH (Mengatasi pinggiran hitam default browser) */
+/* Header Kaca (Glassmorphism) di bagian atas saat membaca PDF */
+.glass-header {
+    position: sticky;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 15px 0;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 100;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+}
+
+.header-title {
+    font-weight: 800;
+    color: #0f172a;
+    font-size: 1.1rem;
+}
+
+.header-subtitle {
+    font-size: 0.75rem;
+    color: #3b82f6;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+/* Wadah kumpulan halaman PDF */
+.pdf-document-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3rem;
+    /* Jarak antar halaman */
+    padding: 2rem 0 6rem 0;
+    /* Ruang atas dan bawah */
+    width: 100%;
+}
+
+.pdf-page-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    width: 100%;
+}
+
+/* Desain Kertas Melayang Premium (Neumorphism Shadow) */
+.pdf-page-shadow {
+    /* Bayangan kompleks berlapis agar kertas PDF sangat menonjol di latar putih */
+    box-shadow:
+        0 20px 40px -10px rgba(0, 0, 0, 0.1),
+        0 0 20px rgba(0, 0, 0, 0.04),
+        0 0 0 1px rgba(0, 0, 0, 0.02);
+    border-radius: 12px;
+    overflow: hidden;
     background-color: #ffffff;
 }
 
+.react-pdf__Page__canvas {
+    margin: 0 auto;
+    max-width: 100%;
+    height: auto !important;
+}
+
+/* Lencana Nomor Halaman Minimalis */
+.page-badge {
+    margin-top: 20px;
+    background-color: #ffffff;
+    padding: 8px 24px;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #475569;
+    /* Efek bayangan timbul */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06), inset 0 0 0 1px rgba(0, 0, 0, 0.05);
+}
+
+.loading-pdf-container {
+    display: flex;
+    gap: 10px;
+    margin-top: 30vh;
+}
+
 /* =========================================
-   ANIMASI (KEYFRAMES)
+   ANIMASI KEYFRAMES
    ========================================= */
 @keyframes elasticBounce {
     0% {
@@ -175,7 +241,7 @@
     }
 
     30% {
-        transform: scale(0.9, 1.1) translateY(-40px);
+        transform: scale(0.9, 1.1) translateY(-45px);
     }
 
     50% {
@@ -183,7 +249,7 @@
     }
 
     57% {
-        transform: scale(1, 1) translateY(-10px);
+        transform: scale(1, 1) translateY(-12px);
     }
 
     64% {
@@ -206,7 +272,7 @@
 
     30% {
         transform: scale(0.4);
-        opacity: 0.3;
+        opacity: 0.2;
     }
 }
 
