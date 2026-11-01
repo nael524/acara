@@ -1,0 +1,234 @@
+/* =========================================
+   TATA LETAK UTAMA & BACKGROUND (KOMPLEKS & BERSIH)
+   ========================================= */
+.app-container {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background-color: #ffffff;
+
+    /* Tekstur Premium: Grid Arsitektur Super Halus */
+    background-image:
+        linear-gradient(rgba(59, 130, 246, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(59, 130, 246, 0.04) 1px, transparent 1px);
+    background-size: 25px 25px;
+    background-position: center center;
+
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    position: relative;
+    overscroll-behavior: none;
+    /* Mencegah layar goyang di HP */
+}
+
+.loader-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /* Latar belakang transparan agar grid dari app-container terlihat */
+    background-color: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(5px);
+    z-index: 50;
+    transition: all 0.8s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.loader-overlay.fade-out {
+    opacity: 0;
+    transform: translateY(-20px);
+    pointer-events: none;
+}
+
+/* =========================================
+   LOGO DENGAN EFEK "MENTAL-MENTAL" (ELASTIC BOUNCE)
+   ========================================= */
+.logo-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 2rem;
+    z-index: 10;
+}
+
+.logo-image {
+    width: 140px;
+    height: 140px;
+    object-fit: contain;
+    /* Bayangan lembut dan elegan */
+    filter: drop-shadow(0 20px 30px rgba(59, 130, 246, 0.15));
+    animation: elasticBounce 2s infinite cubic-bezier(0.28, 0.84, 0.42, 1);
+    transform-origin: bottom center;
+}
+
+.logo-shadow {
+    width: 90px;
+    height: 12px;
+    background: radial-gradient(ellipse at center, rgba(59, 130, 246, 0.15) 0%, transparent 70%);
+    border-radius: 50%;
+    margin-top: 15px;
+    animation: shadowScale 2s infinite cubic-bezier(0.28, 0.84, 0.42, 1);
+}
+
+/* =========================================
+   TIPOGRAFI MINIMALIS & ELEGAN
+   ========================================= */
+.text-container {
+    text-align: center;
+    z-index: 10;
+    margin-bottom: 2rem;
+}
+
+.title-text {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 900;
+    margin: 0 0 0.5rem 0;
+    color: #0f172a;
+    letter-spacing: -0.5px;
+    text-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.subtitle-text {
+    font-size: clamp(0.8rem, 2vw, 1.1rem);
+    font-weight: 700;
+    color: #2563eb;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin: 0;
+}
+
+/* =========================================
+   LOADING DOTS "MENTAL-MENTAL"
+   ========================================= */
+.dots-container {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+}
+
+.dot {
+    width: 14px;
+    height: 14px;
+    background: linear-gradient(135deg, #60a5fa, #2563eb);
+    border-radius: 50%;
+    box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
+    animation: bounceDot 1.4s infinite ease-in-out both;
+}
+
+.dot:nth-child(1) {
+    animation-delay: -0.32s;
+}
+
+.dot:nth-child(2) {
+    animation-delay: -0.16s;
+}
+
+.dot:nth-child(3) {
+    animation-delay: 0s;
+}
+
+/* =========================================
+   PDF VIEWER (Latar Putih, Anti Hitam)
+   ========================================= */
+.pdf-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    /* Latar belakang transparan agar tekstur grid dari app-container menembus masuk */
+    background-color: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 1s ease-in-out;
+    padding: 0;
+    /* Pastikan tidak ada jarak aneh */
+}
+
+.pdf-frame {
+    width: 100vw;
+    height: 100vh;
+    border: none;
+    outline: none;
+    pointer-events: auto;
+    /* PAKSA LATAR BELAKANG IFRAME MENJADI PUTIH (Mengatasi pinggiran hitam default browser) */
+    background-color: #ffffff;
+}
+
+/* =========================================
+   ANIMASI (KEYFRAMES)
+   ========================================= */
+@keyframes elasticBounce {
+    0% {
+        transform: scale(1, 1) translateY(0);
+    }
+
+    10% {
+        transform: scale(1.1, 0.9) translateY(0);
+    }
+
+    30% {
+        transform: scale(0.9, 1.1) translateY(-40px);
+    }
+
+    50% {
+        transform: scale(1.05, 0.95) translateY(0);
+    }
+
+    57% {
+        transform: scale(1, 1) translateY(-10px);
+    }
+
+    64% {
+        transform: scale(1, 1) translateY(0);
+    }
+
+    100% {
+        transform: scale(1, 1) translateY(0);
+    }
+}
+
+@keyframes shadowScale {
+
+    0%,
+    100%,
+    64% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    30% {
+        transform: scale(0.4);
+        opacity: 0.3;
+    }
+}
+
+@keyframes bounceDot {
+
+    0%,
+    80%,
+    100% {
+        transform: scale(0) translateY(0);
+    }
+
+    40% {
+        transform: scale(1) translateY(-10px);
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
