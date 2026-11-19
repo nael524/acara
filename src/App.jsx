@@ -2,20 +2,23 @@ import React, { useState, useEffect } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
 import './App.css';
 
-// Konfigurasi wajib react-pdf
-pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
+// Gunakan worker lokal dari node_modules agar lebih stabil & cepat (tanpa bergantung CDN unpkg)
+pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+  'pdfjs-dist/build/pdf.worker.min.mjs',
+  import.meta.url,
+).toString();
 
 const App = () => {
   const [showLoader, setShowLoader] = useState(true);
   const [fadeOut, setFadeOut] = useState(false);
   const [numPages, setNumPages] = useState(null);
   const [pageWidth, setPageWidth] = useState(window.innerWidth);
+  const [pdfError, setPdfError] = useState(null);
 
-  // File PDF Anda
   const pdfFileName = "TATA ACARA NATAL.pdf";
   const pdfLocation = `/${encodeURI(pdfFileName)}`;
 
-  // Efek Loading (Mental-mental) selama 3.5 detik
+  // Efek Loading selama 3.5 detik
   useEffect(() => {
     const timer = setTimeout(() => {
       setFadeOut(true);
@@ -24,7 +27,7 @@ const App = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  // Responsif: Sesuaikan ukuran kertas PDF jika layar HP/Laptop diubah
+  // Responsif ukuran layar
   useEffect(() => {
     const handleResize = () => setPageWidth(window.innerWidth);
     window.addEventListener('resize', handleResize);
@@ -33,17 +36,19 @@ const App = () => {
 
   const onDocumentLoadSuccess = ({ numPages }) => {
     setNumPages(numPages);
+    setPdfError(null);
+  };
+
+  const onDocumentLoadError = (error) => {
+    console.error("Detail error PDF:", error);
+    setPdfError("Gagal memuat dokumen tata ibadah. Silakan muat ulang halaman.");
   };
 
   return (
     <div className="app-container">
-
-      {/* =========================================
-          LAYAR LOADER (PUTIH BERSIH & ANIMASI JELI)
-          ========================================= */}
+      {/* LAYAR LOADER */}
       {showLoader && (
         <div className={`loader-overlay ${fadeOut ? 'fade-out' : ''}`}>
-
           <div className="logo-container">
             <img src="/Logo.png" alt="Logo GKPI" className="logo-image" />
             <div className="logo-shadow"></div>
@@ -59,56 +64,55 @@ const App = () => {
             <div className="dot"></div>
             <div className="dot"></div>
           </div>
-
         </div>
       )}
 
-      {/* =========================================
-          PDF VIEWER (MODE SWIPE / SCROLL)
-          ========================================= */}
-      {!showLoader && (
-        <div className="custom-pdf-wrapper">
+      {/* PDF VIEWER: Tetap di-mount di latar belakang agar siap tampil begitu loader hilang */}
+      <div
+        className="custom-pdf-wrapper"
+        style={{ display: showLoader ? 'none' : 'block' }}
+      >
+        <div className="glass-header">
+          <span className="header-title">Tata Ibadah Natal</span>
+          <span className="header-subtitle">GKPI Immanuel</span>
+        </div>
 
-          {/* Header Berbayang Lembut Saat Scroll */}
-          <div className="glass-header">
-            <span className="header-title">Tata Ibadah Natal</span>
-            <span className="header-subtitle">GKPI Immanuel</span>
+        {pdfError ? (
+          <div className="loading-pdf-container">
+            <p>{pdfError}</p>
           </div>
-
+        ) : (
           <Document
             file={pdfLocation}
             onLoadSuccess={onDocumentLoadSuccess}
+            onLoadError={onDocumentLoadError}
             className="pdf-document-container"
             loading={
               <div className="loading-pdf-container">
-                <div className="dot"></div><div className="dot"></div><div className="dot"></div>
+                <div className="dot"></div>
+                <div className="dot"></div>
+                <div className="dot"></div>
               </div>
             }
           >
-            {/* Merender semua halaman agar bisa di-swipe ke bawah */}
-            {Array.from(new Array(numPages), (el, index) => (
-              <div key={`page_${index + 1}`} className="pdf-page-wrapper">
-
-                <Page
-                  pageNumber={index + 1}
-                  renderTextLayer={false}
-                  renderAnnotationLayer={false}
-                  className="pdf-page-shadow"
-                  // Ukuran responsif: Layar besar = 600px, Layar HP = full screen dikurangi margin 32px
-                  width={pageWidth > 768 ? Math.min(pageWidth * 0.5, 600) : pageWidth - 32}
-                />
-
-                {/* Lencana Halaman Premium */}
-                <div className="page-badge">
-                  Halaman {index + 1} / {numPages}
+            {numPages &&
+              Array.from(new Array(numPages), (el, index) => (
+                <div key={`page_${index + 1}`} className="pdf-page-wrapper">
+                  <Page
+                    pageNumber={index + 1}
+                    renderTextLayer={false}
+                    renderAnnotationLayer={false}
+                    className="pdf-page-shadow"
+                    width={pageWidth > 768 ? Math.min(pageWidth * 0.5, 600) : pageWidth - 32}
+                  />
+                  <div className="page-badge">
+                    Halaman {index + 1} / {numPages}
+                  </div>
                 </div>
-
-              </div>
-            ))}
+              ))}
           </Document>
-        </div>
-      )}
-
+        )}
+      </div>
     </div>
   );
 };
